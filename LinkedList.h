@@ -15,7 +15,7 @@ protected:
 		Node* next;
 		Node* last;
 
-		Node(const T& pValue, Node* pNext = nullptr, Node* pLast = nullptr);
+		Node(const T& pValue, Node* pNext = nullptr, Node* pLast = nullptr) : value(pValue), next(pNext), last(pLast) {};
 	};
 
 	Node* head;
@@ -53,13 +53,6 @@ public:
 	std::ostream& print(std::ostream& out) const;
 	friend std::ostream& operator<<(std::ostream& out, const LinkedList<T>& linkedList) { return linkedList.print(out); }
 };
-
-template<typename T>
-inline LinkedList<T>::Node::Node(const T& pValue, Node* pNext, Node* pLast) : value(pValue), next(pNext), last(pLast)
-{
-
-}
-
 
 
 template<typename T>
