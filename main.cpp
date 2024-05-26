@@ -15,21 +15,21 @@ public:
 class Department
 {
 private:
-	Human* worker;
+	Human& worker;
 
 public:
-	Department(Human* persone) : worker(persone) {};
+	Department(Human& persone) : worker(persone) {};
 
 	void printWorkers()
 	{
-		std::cout << worker->name;
+		std::cout << worker.name;
 	}
 };
 
 int main()
 {
 	Human testHuman("Allan");
-	Department testDepartment{ &testHuman };
+	Department testDepartment{ testHuman };
 	testDepartment.printWorkers();
 
 	return 0;
