@@ -5,22 +5,21 @@
 
 #include <iostream>
 
-
-
 template <typename T>
 class LinkedList
 {
 protected:
-	template <typename T>
 	struct Node
 	{
 		T value;
-		Node<T>* next;
-		Node<T>* last;
+		Node* next;
+		Node* last;
+
+		Node(const T& pValue, Node* pNext = nullptr, Node* pLast = nullptr);
 	};
 
-	Node<T>* head;
-	Node<T>* back;
+	Node* head;
+	Node* back;
 	size_t lenght;
 public:
 	LinkedList() : head(nullptr), back(nullptr), lenght(0) {};
@@ -56,6 +55,14 @@ public:
 };
 
 template<typename T>
+inline LinkedList<T>::Node::Node(const T& pValue, Node* pNext, Node* pLast) : value(pValue), next(pNext), last(pLast)
+{
+
+}
+
+
+
+template<typename T>
 inline LinkedList<T>::LinkedList(const std::initializer_list<T>& lst) : LinkedList()
 {
 	for (const T* item = lst.begin(); item != lst.end(); item++)
@@ -65,10 +72,10 @@ inline LinkedList<T>::LinkedList(const std::initializer_list<T>& lst) : LinkedLi
 template<typename T>
 inline LinkedList<T>::~LinkedList()
 {
-	Node<T>* tmp = head;
+	Node* tmp = head;
 	while (tmp)
 	{
-		Node<T>* toDelete = tmp;
+		Node* toDelete = tmp;
 		tmp = tmp->next;
 		delete toDelete;
 	}
@@ -80,7 +87,7 @@ inline T& LinkedList<T>::get(int index)
 	if (index < 0 || index >= lenght)
 		throw std::out_of_range("overload");
 
-	Node<T>* tmp = head;
+	Node* tmp = head;
 	while (index-- > 0)
 		tmp = tmp->next;
 	return tmp->value;
@@ -93,7 +100,7 @@ inline const T& LinkedList<T>::get(int index) const
 	if (index < 0 || index >= lenght)
 		throw std::out_of_range("overload");
 
-	Node<T>* tmp = head;
+	Node* tmp = head;
 	while (index-- > 0)
 		tmp = tmp->next;
 	return tmp->value;
@@ -102,7 +109,7 @@ inline const T& LinkedList<T>::get(int index) const
 template <typename T>
 inline void LinkedList<T>::push_front(const T& pValue)
 {
-	Node<T>* tmp = new Node<T>{ pValue, head, nullptr };
+	Node* tmp = new Node{ pValue, head };
 	head = tmp;
 	if (lenght++ == 0)
 		back = tmp;
@@ -111,7 +118,7 @@ inline void LinkedList<T>::push_front(const T& pValue)
 template<typename T>
 inline void LinkedList<T>::push_back(const T& pValue)
 {
-	Node<T>* tmp = new Node<T>{ pValue, nullptr, back };
+	Node* tmp = new Node{ pValue, nullptr, back };
 	if (back)
 		back->next = tmp;
 
@@ -126,7 +133,7 @@ inline void LinkedList<T>::pop_front()
 	if (lenght == 0)
 		throw std::out_of_range("overload");
 
-	Node<T>* tmp = head;
+	Node* tmp = head;
 	head = tmp->next;
 	delete tmp;
 
@@ -140,7 +147,7 @@ inline void LinkedList<T>::pop_back()
 	if (lenght == 0)
 		throw std::out_of_range("overload");
 
-	Node<T>* tmp = back;
+	Node* tmp = back;
 	back = tmp->last;
 
 	if (back)
@@ -167,11 +174,11 @@ inline void LinkedList<T>::insert(int index, const T& pValue)
 		return;
 	}
 
-	Node<T>* tmp = head;
+	Node* tmp = head;
 	while (index--)
 		tmp = tmp->next;
 
-	Node<T>* newElement = new Node<T>{ pValue, tmp, tmp->last };
+	Node* newElement = new Node{ pValue, tmp, tmp->last };
 	tmp->last->next = newElement;
 	tmp->last = newElement;
 	lenght++;
@@ -183,7 +190,7 @@ inline void LinkedList<T>::pop(int index)
 	if (index < 0 || index >= lenght)
 		throw std::out_of_range("overload");
 
-	Node<T>* tmp = head;
+	Node* tmp = head;
 	while (index--)
 		tmp = tmp->next;
 
@@ -204,10 +211,10 @@ inline void LinkedList<T>::pop(int index)
 template<typename T>
 inline void LinkedList<T>::clear()
 {
-	Node<T>* tmp = head;
+	Node* tmp = head;
 	while (tmp)
 	{
-		Node<T>* toDelete = tmp;
+		Node* toDelete = tmp;
 		tmp = tmp->next;
 		delete toDelete;
 	}
@@ -220,7 +227,7 @@ inline void LinkedList<T>::clear()
 template<typename T>
 inline std::ostream& LinkedList<T>::print(std::ostream& out) const
 {
-	Node<T>* tmp = head;
+	Node* tmp = head;
 	out << "[ ";
 	for (int i = 0; i < lenght; i++)
 	{
@@ -232,3 +239,4 @@ inline std::ostream& LinkedList<T>::print(std::ostream& out) const
 	out << " ]";
 	return out;
 }
+
